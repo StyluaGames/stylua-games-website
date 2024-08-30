@@ -15,20 +15,16 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div :class="['collapse', 'navbar-collapse', { show: !isNavCollapsed }]" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active text-white" aria-current="page" href="#">Наши игры</a>
             </li>
-            <!-- Обёртывание элементов в <template> -->
-            <template v-for="link in filteredLinks" :key="link.name">
-              <transition name="fade" mode="out-in">
-                <li v-if="!link.blocked" class="nav-item">
-                  <a class="nav-link text-gray-300 hover:text-white transition duration-300 ease-in-out" :href="link.url">
-                    {{ link.name }}
-                  </a>
-                </li>
-              </transition>
-            </template>
+            <!-- Показывать только те ссылки, которые не заблокированы -->
+            <li v-for="link in filteredLinks" :key="link.name" class="nav-item" :class="{ 'animate__animated': !link.blocked, 'animate__fadeIn': !link.blocked, 'animate__delay-1s': !link.blocked }">
+              <a v-if="!link.blocked" class="nav-link" :href="link.url">
+                {{ link.name }}
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -55,7 +51,6 @@ export default {
   },
   computed: {
     filteredLinks() {
-      // Фильтруем ссылки в зависимости от региона
       if (this.region === 'Russia') {
         return this.links.map(link => {
           if (['Мы в TikTok', 'Мы в Instagram', 'Мы в X', 'Мы в Facebook'].includes(link.name)) {
@@ -97,12 +92,52 @@ export default {
 </script>
 
 <style scoped>
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~animate.css/animate.min.css"; /* Подключение Animate.css */
+
 .navbar-brand img {
-  width: 195.68px;
-  height: 79.68px;
+  width: 150px; /* Размер изображения можно скорректировать */
+  height: auto;
 }
+
+.navbar {
+  background: linear-gradient(135deg, #1f1f1f, #333); /* Градиент фона для современного вида */
+}
+
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+}
+
+.nav-link {
+  font-size: 1rem; /* размер шрифта */
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #f8f9fa;
+}
+
+.nav-item {
+  opacity: 0;
+  animation: fadeInUp 1s forwards; /* Анимация появления элементов */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимации переходов */
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.5s ease;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0;
