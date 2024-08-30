@@ -1,12 +1,12 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gray-800 shadow-lg">
       <div class="container-xxl">
         <a class="navbar-brand" href="#">
-          <img src="../assets/Stylua.png" alt="" width="195.68" height="79.68" />
+          <img src="../assets/Stylua.png" alt="" class="w-48 h-auto animate__animated animate__fadeIn" />
         </a>
         <button 
-          class="navbar-toggler" 
+          class="navbar-toggler text-white"
           type="button" 
           @click="isNavCollapsed = !isNavCollapsed" 
           aria-controls="navbarSupportedContent" 
@@ -17,14 +17,18 @@
         <div :class="['collapse', 'navbar-collapse', { show: !isNavCollapsed }]" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Наши игры</a>
+              <a class="nav-link active text-white" aria-current="page" href="#">Наши игры</a>
             </li>
-            <!-- Показывать только те ссылки, которые не заблокированы -->
-            <li class="nav-item" v-for="link in filteredLinks" :key="link.name">
-              <a v-if="!link.blocked" class="nav-link" :href="link.url">
-                {{ link.name }}
-              </a>
-            </li>
+            <!-- Обёртывание элементов в <template> -->
+            <template v-for="link in filteredLinks" :key="link.name">
+              <transition name="fade" mode="out-in">
+                <li v-if="!link.blocked" class="nav-item">
+                  <a class="nav-link text-gray-300 hover:text-white transition duration-300 ease-in-out" :href="link.url">
+                    {{ link.name }}
+                  </a>
+                </li>
+              </transition>
+            </template>
           </ul>
         </div>
       </div>
@@ -96,5 +100,11 @@ export default {
 .navbar-brand img {
   width: 195.68px;
   height: 79.68px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>
