@@ -3,12 +3,13 @@
     <AppNavbar />
     <main class="flex-fill">
       <div class="container my-5">
-        <iframe 
-          src="https://store.steampowered.com/widget/1737640/" 
-          frameborder="0" 
-          width="646" 
-          height="190">
-        </iframe>
+        <div class="embed-responsive embed-responsive-16by9 steam-widget-container">
+          <iframe 
+            src="https://store.steampowered.com/widget/1737640/" 
+            frameborder="0" 
+            allowfullscreen>
+          </iframe>
+        </div>
       </div>
     </main>
     <footer class="site-footer text-center py-4">
@@ -67,5 +68,35 @@ body {
 /* Прокрутка страницы в случае необходимости */
 html, body {
   height: 100%;
+}
+
+/* Адаптация iframe для Steam виджета */
+.steam-widget-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 29.41%; /* Соотношение сторон 646x190 = 29.41% */
+}
+
+.steam-widget-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Настройки контейнера под разные устройства */
+@media (max-width: 768px) {
+  .steam-widget-container {
+    padding-bottom: 50%; /* Изменяем соотношение сторон под мобильные устройства */
+  }
+}
+
+@media (max-width: 576px) {
+  .steam-widget-container {
+    padding-bottom: 75%; /* Еще большее изменение для маленьких экранов */
+  }
 }
 </style>
