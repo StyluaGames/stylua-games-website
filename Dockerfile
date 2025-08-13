@@ -13,14 +13,8 @@ RUN npm install
 # Копируем весь проект в контейнер
 COPY . .
 
-# Определяем аргумент для переменной окружения (значение придёт из CI/CD)
-ARG VUE_APP_API_KEY
-
-# Устанавливаем переменную окружения из аргумента
-ENV VUE_APP_API_KEY=$VUE_APP_API_KEY
-
-# Собираем приложение для production, явно передавая переменную
-RUN VUE_APP_API_KEY=$VUE_APP_API_KEY npm run build
+# Собираем приложение для production
+RUN npm run build
 
 
 # Используем Nginx для запуска нашего приложения

@@ -25,5 +25,3 @@ jobs:
             push: true
             context: .
             tags: ${{ secrets.DOCKER_USERNAME }}/stylua-games-website:latest
-            build-args: |
-              VUE_APP_API_KEY=${{ secrets.VUE_APP_API_KEY }}
