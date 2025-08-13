@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  frontend: # Сервис фронтенда
+    image: ${DOCKER_HUB_USER}/stylua-games-website:latest # Образ фронтенда
+    ports: [ "${FRONTEND_HOST_PORT}:80" ] # Порт хоста:порт контейнера
+    networks: [ network ] # Подключение к сети
+    environment: # Переменные окружения для бэкенда
+      VUE_APP_API_KEY: ${VUE_APP_API_KEY}     # Имя пользователя БД
+
+networks:
+  network: # Сеть для связи сервисов
+    driver: bridge # Драйвер сети (по умолчанию)
